@@ -1,0 +1,2974 @@
+
+state 0:
+
+	Program : . Block 
+
+	LBRACE	reduce by rule 4
+	RATIONAL	shift 4
+	INTEGER	reduce by rule 4
+	BOOLEAN	reduce by rule 4
+	PROCEDURE	reduce by rule 4
+
+	Program	goto 129
+	Block	goto 3
+	DeclarationSeq	goto 2
+	RatVarDecls	goto 1
+
+	.	error
+
+
+state 1:
+
+	DeclarationSeq : RatVarDecls . IntVarDecls BoolVarDecls ProcDecls 
+
+	LBRACE	reduce by rule 6
+	INTEGER	shift 6
+	BOOLEAN	reduce by rule 6
+	PROCEDURE	reduce by rule 6
+
+	IntVarDecls	goto 5
+
+	.	error
+
+
+state 2:
+
+	Block : DeclarationSeq . CommandSeq 
+
+	LBRACE	shift 8
+
+	CommandSeq	goto 7
+
+	.	error
+
+
+state 3:
+
+	Program : Block .  (reduce by rule 0)
+
+	EOF	reduce by rule 0
+
+
+	.	error
+
+
+state 4:
+
+	RatVarDecls : RATIONAL . IDENT Identlist SEMI 
+
+	IDENT	shift 9
+
+
+	.	error
+
+
+state 5:
+
+	DeclarationSeq : RatVarDecls IntVarDecls . BoolVarDecls ProcDecls 
+
+	LBRACE	reduce by rule 8
+	BOOLEAN	shift 11
+	PROCEDURE	reduce by rule 8
+
+	BoolVarDecls	goto 10
+
+	.	error
+
+
+state 6:
+
+	IntVarDecls : INTEGER . IDENT Identlist SEMI 
+
+	IDENT	shift 12
+
+
+	.	error
+
+
+state 7:
+
+	Block : DeclarationSeq CommandSeq .  (reduce by rule 1)
+
+	SEMI	reduce by rule 1
+	EOF	reduce by rule 1
+
+
+	.	error
+
+
+state 8:
+
+	CommandSeq : LBRACE . Command Commandlist RBRACE 
+	CommandSeq : LBRACE . RBRACE 
+
+	RBRACE	shift 20
+	IF	shift 19
+	WHILE	shift 18
+	PRINT	shift 17
+	READ	shift 16
+	CALL	shift 15
+	IDENT	shift 14
+
+	Command	goto 13
+
+	.	error
+
+
+state 9:
+
+	RatVarDecls : RATIONAL IDENT . Identlist SEMI 
+
+	SEMI	reduce by rule 10
+	COMMA	shift 22
+
+	Identlist	goto 21
+
+	.	error
+
+
+state 10:
+
+	DeclarationSeq : RatVarDecls IntVarDecls BoolVarDecls . ProcDecls 
+
+	LBRACE	reduce by rule 12
+	PROCEDURE	shift 25
+
+	ProcDef	goto 24
+	ProcDecls	goto 23
+
+	.	error
+
+
+state 11:
+
+	BoolVarDecls : BOOLEAN . IDENT Identlist SEMI 
+
+	IDENT	shift 26
+
+
+	.	error
+
+
+state 12:
+
+	IntVarDecls : INTEGER IDENT . Identlist SEMI 
+
+	SEMI	reduce by rule 10
+	COMMA	shift 22
+
+	Identlist	goto 27
+
+	.	error
+
+
+state 13:
+
+	CommandSeq : LBRACE Command . Commandlist RBRACE 
+
+	RBRACE	reduce by rule 17
+	IF	shift 19
+	WHILE	shift 18
+	PRINT	shift 17
+	READ	shift 16
+	CALL	shift 15
+	IDENT	shift 14
+
+	Commandlist	goto 29
+	Command	goto 28
+
+	.	error
+
+
+state 14:
+
+	Command : IDENT . ASSIGN Expression SEMI 
+
+	ASSIGN	shift 30
+
+
+	.	error
+
+
+state 15:
+
+	Command : CALL . IDENT SEMI 
+
+	IDENT	shift 31
+
+
+	.	error
+
+
+state 16:
+
+	Command : READ . LPAR IDENT RPAR SEMI 
+
+	LPAR	shift 32
+
+
+	.	error
+
+
+state 17:
+
+	Command : PRINT . LPAR Expression RPAR SEMI 
+
+	LPAR	shift 33
+
+
+	.	error
+
+
+state 18:
+
+	Command : WHILE . Expression DO CommandSeq OD SEMI 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 34
+
+	.	error
+
+
+state 19:
+
+	Command : IF . Expression THEN CommandSeq ELSE CommandSeq FI SEMI 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 47
+
+	.	error
+
+
+state 20:
+
+	CommandSeq : LBRACE RBRACE .  (reduce by rule 15)
+
+	SEMI	reduce by rule 15
+	ELSE	reduce by rule 15
+	FI	reduce by rule 15
+	OD	reduce by rule 15
+	EOF	reduce by rule 15
+
+
+	.	error
+
+
+state 21:
+
+	RatVarDecls : RATIONAL IDENT Identlist . SEMI 
+
+	SEMI	shift 48
+
+
+	.	error
+
+
+state 22:
+
+	Identlist : COMMA . IDENT Identlist 
+
+	IDENT	shift 49
+
+
+	.	error
+
+
+state 23:
+
+	DeclarationSeq : RatVarDecls IntVarDecls BoolVarDecls ProcDecls .  (reduce by rule 2)
+
+	LBRACE	reduce by rule 2
+
+
+	.	error
+
+
+state 24:
+
+	ProcDecls : ProcDef . ProcDecls 
+
+	LBRACE	reduce by rule 12
+	PROCEDURE	shift 25
+
+	ProcDef	goto 24
+	ProcDecls	goto 50
+
+	.	error
+
+
+state 25:
+
+	ProcDef : PROCEDURE . IDENT Block SEMI 
+
+	IDENT	shift 51
+
+
+	.	error
+
+
+state 26:
+
+	BoolVarDecls : BOOLEAN IDENT . Identlist SEMI 
+
+	SEMI	reduce by rule 10
+	COMMA	shift 22
+
+	Identlist	goto 52
+
+	.	error
+
+
+state 27:
+
+	IntVarDecls : INTEGER IDENT Identlist . SEMI 
+
+	SEMI	shift 53
+
+
+	.	error
+
+
+state 28:
+
+	Commandlist : Command . Commandlist 
+
+	RBRACE	reduce by rule 17
+	IF	shift 19
+	WHILE	shift 18
+	PRINT	shift 17
+	READ	shift 16
+	CALL	shift 15
+	IDENT	shift 14
+
+	Commandlist	goto 54
+	Command	goto 28
+
+	.	error
+
+
+state 29:
+
+	CommandSeq : LBRACE Command Commandlist . RBRACE 
+
+	RBRACE	shift 55
+
+
+	.	error
+
+
+state 30:
+
+	Command : IDENT ASSIGN . Expression SEMI 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 56
+
+	.	error
+
+
+state 31:
+
+	Command : CALL IDENT . SEMI 
+
+	SEMI	shift 57
+
+
+	.	error
+
+
+state 32:
+
+	Command : READ LPAR . IDENT RPAR SEMI 
+
+	IDENT	shift 58
+
+
+	.	error
+
+
+state 33:
+
+	Command : PRINT LPAR . Expression RPAR SEMI 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 59
+
+	.	error
+
+
+state 34:
+
+	Command : WHILE Expression . DO CommandSeq OD SEMI 
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+
+	EQUALS	shift 77
+	OR	shift 76
+	AND	shift 75
+	LE	shift 74
+	LT	shift 73
+	GE	shift 72
+	GT	shift 71
+	RATPLUS	shift 70
+	RATMINUS	shift 69
+	RATTIMES	shift 68
+	RATDIV	shift 67
+	INTPLUS	shift 66
+	INTMINUS	shift 65
+	INTTIMES	shift 64
+	INTDIV	shift 63
+	MOD	shift 62
+	NE	shift 61
+	DO	shift 60
+
+
+	.	error
+
+
+state 35:
+
+	Expression : IDENT .  (reduce by rule 25)
+
+	EQUALS	reduce by rule 25
+	RPAR	reduce by rule 25
+	OR	reduce by rule 25
+	AND	reduce by rule 25
+	LE	reduce by rule 25
+	LT	reduce by rule 25
+	GE	reduce by rule 25
+	GT	reduce by rule 25
+	RATPLUS	reduce by rule 25
+	RATMINUS	reduce by rule 25
+	RATTIMES	reduce by rule 25
+	RATDIV	reduce by rule 25
+	INTPLUS	reduce by rule 25
+	INTMINUS	reduce by rule 25
+	INTTIMES	reduce by rule 25
+	INTDIV	reduce by rule 25
+	SEMI	reduce by rule 25
+	COMMA	reduce by rule 25
+	MOD	reduce by rule 25
+	NE	reduce by rule 25
+	THEN	reduce by rule 25
+	DO	reduce by rule 25
+
+
+	.	error
+
+
+state 36:
+
+	Expression : INVERSE . Expression 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 78
+
+	.	error
+
+
+state 37:
+
+	Expression : FROMDECIMAL . LPAR RATNUM RPAR 
+
+	LPAR	shift 79
+
+
+	.	error
+
+
+state 38:
+
+	Expression : MAKERAT . LPAR Expression COMMA Expression RPAR 
+
+	LPAR	shift 80
+
+
+	.	error
+
+
+state 39:
+
+	Expression : RAT_UN . LPAR Expression RPAR 
+
+	LPAR	shift 81
+
+
+	.	error
+
+
+state 40:
+
+	Expression : FALSE .  (reduce by rule 42)
+
+	EQUALS	reduce by rule 42
+	RPAR	reduce by rule 42
+	OR	reduce by rule 42
+	AND	reduce by rule 42
+	LE	reduce by rule 42
+	LT	reduce by rule 42
+	GE	reduce by rule 42
+	GT	reduce by rule 42
+	RATPLUS	reduce by rule 42
+	RATMINUS	reduce by rule 42
+	RATTIMES	reduce by rule 42
+	RATDIV	reduce by rule 42
+	INTPLUS	reduce by rule 42
+	INTMINUS	reduce by rule 42
+	INTTIMES	reduce by rule 42
+	INTDIV	reduce by rule 42
+	SEMI	reduce by rule 42
+	COMMA	reduce by rule 42
+	MOD	reduce by rule 42
+	NE	reduce by rule 42
+	THEN	reduce by rule 42
+	DO	reduce by rule 42
+
+
+	.	error
+
+
+state 41:
+
+	Expression : TRUE .  (reduce by rule 41)
+
+	EQUALS	reduce by rule 41
+	RPAR	reduce by rule 41
+	OR	reduce by rule 41
+	AND	reduce by rule 41
+	LE	reduce by rule 41
+	LT	reduce by rule 41
+	GE	reduce by rule 41
+	GT	reduce by rule 41
+	RATPLUS	reduce by rule 41
+	RATMINUS	reduce by rule 41
+	RATTIMES	reduce by rule 41
+	RATDIV	reduce by rule 41
+	INTPLUS	reduce by rule 41
+	INTMINUS	reduce by rule 41
+	INTTIMES	reduce by rule 41
+	INTDIV	reduce by rule 41
+	SEMI	reduce by rule 41
+	COMMA	reduce by rule 41
+	MOD	reduce by rule 41
+	NE	reduce by rule 41
+	THEN	reduce by rule 41
+	DO	reduce by rule 41
+
+
+	.	error
+
+
+state 42:
+
+	Expression : NEG . Expression 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 82
+
+	.	error
+
+
+state 43:
+
+	Expression : NOT . Expression 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 83
+
+	.	error
+
+
+state 44:
+
+	Expression : LPAR . Expression RPAR 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 84
+
+	.	error
+
+
+state 45:
+
+	Expression : RATNUM .  (reduce by rule 24)
+
+	EQUALS	reduce by rule 24
+	RPAR	reduce by rule 24
+	OR	reduce by rule 24
+	AND	reduce by rule 24
+	LE	reduce by rule 24
+	LT	reduce by rule 24
+	GE	reduce by rule 24
+	GT	reduce by rule 24
+	RATPLUS	reduce by rule 24
+	RATMINUS	reduce by rule 24
+	RATTIMES	reduce by rule 24
+	RATDIV	reduce by rule 24
+	INTPLUS	reduce by rule 24
+	INTMINUS	reduce by rule 24
+	INTTIMES	reduce by rule 24
+	INTDIV	reduce by rule 24
+	SEMI	reduce by rule 24
+	COMMA	reduce by rule 24
+	MOD	reduce by rule 24
+	NE	reduce by rule 24
+	THEN	reduce by rule 24
+	DO	reduce by rule 24
+
+
+	.	error
+
+
+state 46:
+
+	Expression : CONST .  (reduce by rule 35)
+
+	EQUALS	reduce by rule 35
+	RPAR	reduce by rule 35
+	OR	reduce by rule 35
+	AND	reduce by rule 35
+	LE	reduce by rule 35
+	LT	reduce by rule 35
+	GE	reduce by rule 35
+	GT	reduce by rule 35
+	RATPLUS	reduce by rule 35
+	RATMINUS	reduce by rule 35
+	RATTIMES	reduce by rule 35
+	RATDIV	reduce by rule 35
+	INTPLUS	reduce by rule 35
+	INTMINUS	reduce by rule 35
+	INTTIMES	reduce by rule 35
+	INTDIV	reduce by rule 35
+	SEMI	reduce by rule 35
+	COMMA	reduce by rule 35
+	MOD	reduce by rule 35
+	NE	reduce by rule 35
+	THEN	reduce by rule 35
+	DO	reduce by rule 35
+
+
+	.	error
+
+
+state 47:
+
+	Command : IF Expression . THEN CommandSeq ELSE CommandSeq FI SEMI 
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+
+	EQUALS	shift 77
+	OR	shift 76
+	AND	shift 75
+	LE	shift 74
+	LT	shift 73
+	GE	shift 72
+	GT	shift 71
+	RATPLUS	shift 70
+	RATMINUS	shift 69
+	RATTIMES	shift 68
+	RATDIV	shift 67
+	INTPLUS	shift 66
+	INTMINUS	shift 65
+	INTTIMES	shift 64
+	INTDIV	shift 63
+	MOD	shift 62
+	NE	shift 61
+	THEN	shift 85
+
+
+	.	error
+
+
+state 48:
+
+	RatVarDecls : RATIONAL IDENT Identlist SEMI .  (reduce by rule 3)
+
+	LBRACE	reduce by rule 3
+	INTEGER	reduce by rule 3
+	BOOLEAN	reduce by rule 3
+	PROCEDURE	reduce by rule 3
+
+
+	.	error
+
+
+state 49:
+
+	Identlist : COMMA IDENT . Identlist 
+
+	SEMI	reduce by rule 10
+	COMMA	shift 22
+
+	Identlist	goto 86
+
+	.	error
+
+
+state 50:
+
+	ProcDecls : ProcDef ProcDecls .  (reduce by rule 11)
+
+	LBRACE	reduce by rule 11
+
+
+	.	error
+
+
+state 51:
+
+	ProcDef : PROCEDURE IDENT . Block SEMI 
+
+	LBRACE	reduce by rule 4
+	RATIONAL	shift 4
+	INTEGER	reduce by rule 4
+	BOOLEAN	reduce by rule 4
+	PROCEDURE	reduce by rule 4
+
+	Block	goto 87
+	DeclarationSeq	goto 2
+	RatVarDecls	goto 1
+
+	.	error
+
+
+state 52:
+
+	BoolVarDecls : BOOLEAN IDENT Identlist . SEMI 
+
+	SEMI	shift 88
+
+
+	.	error
+
+
+state 53:
+
+	IntVarDecls : INTEGER IDENT Identlist SEMI .  (reduce by rule 5)
+
+	LBRACE	reduce by rule 5
+	BOOLEAN	reduce by rule 5
+	PROCEDURE	reduce by rule 5
+
+
+	.	error
+
+
+state 54:
+
+	Commandlist : Command Commandlist .  (reduce by rule 16)
+
+	RBRACE	reduce by rule 16
+
+
+	.	error
+
+
+state 55:
+
+	CommandSeq : LBRACE Command Commandlist RBRACE .  (reduce by rule 14)
+
+	SEMI	reduce by rule 14
+	ELSE	reduce by rule 14
+	FI	reduce by rule 14
+	OD	reduce by rule 14
+	EOF	reduce by rule 14
+
+
+	.	error
+
+
+state 56:
+
+	Command : IDENT ASSIGN Expression . SEMI 
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+
+	EQUALS	shift 77
+	OR	shift 76
+	AND	shift 75
+	LE	shift 74
+	LT	shift 73
+	GE	shift 72
+	GT	shift 71
+	RATPLUS	shift 70
+	RATMINUS	shift 69
+	RATTIMES	shift 68
+	RATDIV	shift 67
+	INTPLUS	shift 66
+	INTMINUS	shift 65
+	INTTIMES	shift 64
+	INTDIV	shift 63
+	SEMI	shift 89
+	MOD	shift 62
+	NE	shift 61
+
+
+	.	error
+
+
+state 57:
+
+	Command : CALL IDENT SEMI .  (reduce by rule 19)
+
+	RBRACE	reduce by rule 19
+	IF	reduce by rule 19
+	WHILE	reduce by rule 19
+	PRINT	reduce by rule 19
+	READ	reduce by rule 19
+	CALL	reduce by rule 19
+	IDENT	reduce by rule 19
+
+
+	.	error
+
+
+state 58:
+
+	Command : READ LPAR IDENT . RPAR SEMI 
+
+	RPAR	shift 90
+
+
+	.	error
+
+
+state 59:
+
+	Command : PRINT LPAR Expression . RPAR SEMI 
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+
+	EQUALS	shift 77
+	RPAR	shift 91
+	OR	shift 76
+	AND	shift 75
+	LE	shift 74
+	LT	shift 73
+	GE	shift 72
+	GT	shift 71
+	RATPLUS	shift 70
+	RATMINUS	shift 69
+	RATTIMES	shift 68
+	RATDIV	shift 67
+	INTPLUS	shift 66
+	INTMINUS	shift 65
+	INTTIMES	shift 64
+	INTDIV	shift 63
+	MOD	shift 62
+	NE	shift 61
+
+
+	.	error
+
+
+state 60:
+
+	Command : WHILE Expression DO . CommandSeq OD SEMI 
+
+	LBRACE	shift 8
+
+	CommandSeq	goto 92
+
+	.	error
+
+
+state 61:
+
+	Expression : Expression NE . Expression 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 93
+
+	.	error
+
+
+state 62:
+
+	Expression : Expression MOD . Expression 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 94
+
+	.	error
+
+
+state 63:
+
+	Expression : Expression INTDIV . Expression 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 95
+
+	.	error
+
+
+state 64:
+
+	Expression : Expression INTTIMES . Expression 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 96
+
+	.	error
+
+
+state 65:
+
+	Expression : Expression INTMINUS . Expression 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 97
+
+	.	error
+
+
+state 66:
+
+	Expression : Expression INTPLUS . Expression 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 98
+
+	.	error
+
+
+state 67:
+
+	Expression : Expression RATDIV . Expression 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 99
+
+	.	error
+
+
+state 68:
+
+	Expression : Expression RATTIMES . Expression 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 100
+
+	.	error
+
+
+state 69:
+
+	Expression : Expression RATMINUS . Expression 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 101
+
+	.	error
+
+
+state 70:
+
+	Expression : Expression RATPLUS . Expression 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 102
+
+	.	error
+
+
+state 71:
+
+	Expression : Expression GT . Expression 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 103
+
+	.	error
+
+
+state 72:
+
+	Expression : Expression GE . Expression 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 104
+
+	.	error
+
+
+state 73:
+
+	Expression : Expression LT . Expression 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 105
+
+	.	error
+
+
+state 74:
+
+	Expression : Expression LE . Expression 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 106
+
+	.	error
+
+
+state 75:
+
+	Expression : Expression AND . Expression 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 107
+
+	.	error
+
+
+state 76:
+
+	Expression : Expression OR . Expression 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 108
+
+	.	error
+
+
+state 77:
+
+	Expression : Expression EQUALS . Expression 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 109
+
+	.	error
+
+
+state 78:
+
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : INVERSE Expression .  (reduce by rule 30)
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+
+	EQUALS	reduce by rule 30
+	RPAR	reduce by rule 30
+	OR	reduce by rule 30
+	AND	reduce by rule 30
+	LE	reduce by rule 30
+	LT	reduce by rule 30
+	GE	reduce by rule 30
+	GT	reduce by rule 30
+	RATPLUS	reduce by rule 30
+	RATMINUS	reduce by rule 30
+	RATTIMES	reduce by rule 30
+	RATDIV	reduce by rule 30
+	INTPLUS	reduce by rule 30
+	INTMINUS	reduce by rule 30
+	INTTIMES	reduce by rule 30
+	INTDIV	reduce by rule 30
+	SEMI	reduce by rule 30
+	COMMA	reduce by rule 30
+	MOD	reduce by rule 30
+	NE	reduce by rule 30
+	THEN	reduce by rule 30
+	DO	reduce by rule 30
+
+
+	.	error
+
+
+state 79:
+
+	Expression : FROMDECIMAL LPAR . RATNUM RPAR 
+
+	RATNUM	shift 110
+
+
+	.	error
+
+
+state 80:
+
+	Expression : MAKERAT LPAR . Expression COMMA Expression RPAR 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 111
+
+	.	error
+
+
+state 81:
+
+	Expression : RAT_UN LPAR . Expression RPAR 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 112
+
+	.	error
+
+
+state 82:
+
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : NEG Expression .  (reduce by rule 34)
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+
+	EQUALS	reduce by rule 34
+	RPAR	reduce by rule 34
+	OR	reduce by rule 34
+	AND	reduce by rule 34
+	LE	reduce by rule 34
+	LT	reduce by rule 34
+	GE	reduce by rule 34
+	GT	reduce by rule 34
+	RATPLUS	reduce by rule 34
+	RATMINUS	reduce by rule 34
+	RATTIMES	reduce by rule 34
+	RATDIV	reduce by rule 34
+	INTPLUS	reduce by rule 34
+	INTMINUS	reduce by rule 34
+	INTTIMES	reduce by rule 34
+	INTDIV	reduce by rule 34
+	SEMI	reduce by rule 34
+	COMMA	reduce by rule 34
+	MOD	reduce by rule 34
+	NE	reduce by rule 34
+	THEN	reduce by rule 34
+	DO	reduce by rule 34
+
+
+	.	error
+
+
+state 83:
+
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+	Expression : NOT Expression .  (reduce by rule 51)
+
+	EQUALS	reduce by rule 51
+	RPAR	reduce by rule 51
+	OR	reduce by rule 51
+	AND	reduce by rule 51
+	LE	reduce by rule 51
+	LT	reduce by rule 51
+	GE	reduce by rule 51
+	GT	reduce by rule 51
+	RATPLUS	reduce by rule 51
+	RATMINUS	reduce by rule 51
+	RATTIMES	reduce by rule 51
+	RATDIV	reduce by rule 51
+	INTPLUS	reduce by rule 51
+	INTMINUS	reduce by rule 51
+	INTTIMES	reduce by rule 51
+	INTDIV	reduce by rule 51
+	SEMI	reduce by rule 51
+	COMMA	reduce by rule 51
+	MOD	reduce by rule 51
+	NE	reduce by rule 51
+	THEN	reduce by rule 51
+	DO	reduce by rule 51
+
+
+	.	error
+
+
+state 84:
+
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+	Expression : LPAR Expression . RPAR 
+
+	EQUALS	shift 77
+	RPAR	shift 113
+	OR	shift 76
+	AND	shift 75
+	LE	shift 74
+	LT	shift 73
+	GE	shift 72
+	GT	shift 71
+	RATPLUS	shift 70
+	RATMINUS	shift 69
+	RATTIMES	shift 68
+	RATDIV	shift 67
+	INTPLUS	shift 66
+	INTMINUS	shift 65
+	INTTIMES	shift 64
+	INTDIV	shift 63
+	MOD	shift 62
+	NE	shift 61
+
+
+	.	error
+
+
+state 85:
+
+	Command : IF Expression THEN . CommandSeq ELSE CommandSeq FI SEMI 
+
+	LBRACE	shift 8
+
+	CommandSeq	goto 114
+
+	.	error
+
+
+state 86:
+
+	Identlist : COMMA IDENT Identlist .  (reduce by rule 9)
+
+	SEMI	reduce by rule 9
+
+
+	.	error
+
+
+state 87:
+
+	ProcDef : PROCEDURE IDENT Block . SEMI 
+
+	SEMI	shift 115
+
+
+	.	error
+
+
+state 88:
+
+	BoolVarDecls : BOOLEAN IDENT Identlist SEMI .  (reduce by rule 7)
+
+	LBRACE	reduce by rule 7
+	PROCEDURE	reduce by rule 7
+
+
+	.	error
+
+
+state 89:
+
+	Command : IDENT ASSIGN Expression SEMI .  (reduce by rule 18)
+
+	RBRACE	reduce by rule 18
+	IF	reduce by rule 18
+	WHILE	reduce by rule 18
+	PRINT	reduce by rule 18
+	READ	reduce by rule 18
+	CALL	reduce by rule 18
+	IDENT	reduce by rule 18
+
+
+	.	error
+
+
+state 90:
+
+	Command : READ LPAR IDENT RPAR . SEMI 
+
+	SEMI	shift 116
+
+
+	.	error
+
+
+state 91:
+
+	Command : PRINT LPAR Expression RPAR . SEMI 
+
+	SEMI	shift 117
+
+
+	.	error
+
+
+state 92:
+
+	Command : WHILE Expression DO CommandSeq . OD SEMI 
+
+	OD	shift 118
+
+
+	.	error
+
+
+state 93:
+
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression NE Expression .  (reduce by rule 48)
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+
+	EQUALS	shift 77
+	RPAR	reduce by rule 48
+	OR	reduce by rule 48
+	AND	reduce by rule 48
+	LE	shift 74
+	LT	shift 73
+	GE	shift 72
+	GT	shift 71
+	RATPLUS	shift 70
+	RATMINUS	shift 69
+	RATTIMES	shift 68
+	RATDIV	shift 67
+	INTPLUS	shift 66
+	INTMINUS	shift 65
+	INTTIMES	shift 64
+	INTDIV	shift 63
+	SEMI	reduce by rule 48
+	COMMA	reduce by rule 48
+	MOD	shift 62
+	NE	shift 61
+	THEN	reduce by rule 48
+	DO	reduce by rule 48
+
+
+	.	error
+
+
+state 94:
+
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression MOD Expression .  (reduce by rule 40)
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+
+	EQUALS	reduce by rule 40
+	RPAR	reduce by rule 40
+	OR	reduce by rule 40
+	AND	reduce by rule 40
+	LE	reduce by rule 40
+	LT	reduce by rule 40
+	GE	reduce by rule 40
+	GT	reduce by rule 40
+	RATPLUS	shift 70
+	RATMINUS	shift 69
+	RATTIMES	shift 68
+	RATDIV	shift 67
+	INTPLUS	reduce by rule 40
+	INTMINUS	reduce by rule 40
+	INTTIMES	reduce by rule 40
+	INTDIV	reduce by rule 40
+	SEMI	reduce by rule 40
+	COMMA	reduce by rule 40
+	MOD	reduce by rule 40
+	NE	reduce by rule 40
+	THEN	reduce by rule 40
+	DO	reduce by rule 40
+
+
+	.	error
+
+
+state 95:
+
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression INTDIV Expression .  (reduce by rule 39)
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+
+	EQUALS	reduce by rule 39
+	RPAR	reduce by rule 39
+	OR	reduce by rule 39
+	AND	reduce by rule 39
+	LE	reduce by rule 39
+	LT	reduce by rule 39
+	GE	reduce by rule 39
+	GT	reduce by rule 39
+	RATPLUS	shift 70
+	RATMINUS	shift 69
+	RATTIMES	shift 68
+	RATDIV	shift 67
+	INTPLUS	reduce by rule 39
+	INTMINUS	reduce by rule 39
+	INTTIMES	reduce by rule 39
+	INTDIV	reduce by rule 39
+	SEMI	reduce by rule 39
+	COMMA	reduce by rule 39
+	MOD	reduce by rule 39
+	NE	reduce by rule 39
+	THEN	reduce by rule 39
+	DO	reduce by rule 39
+
+
+	.	error
+
+
+state 96:
+
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression INTTIMES Expression .  (reduce by rule 38)
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+
+	EQUALS	reduce by rule 38
+	RPAR	reduce by rule 38
+	OR	reduce by rule 38
+	AND	reduce by rule 38
+	LE	reduce by rule 38
+	LT	reduce by rule 38
+	GE	reduce by rule 38
+	GT	reduce by rule 38
+	RATPLUS	shift 70
+	RATMINUS	shift 69
+	RATTIMES	shift 68
+	RATDIV	shift 67
+	INTPLUS	reduce by rule 38
+	INTMINUS	reduce by rule 38
+	INTTIMES	reduce by rule 38
+	INTDIV	reduce by rule 38
+	SEMI	reduce by rule 38
+	COMMA	reduce by rule 38
+	MOD	reduce by rule 38
+	NE	reduce by rule 38
+	THEN	reduce by rule 38
+	DO	reduce by rule 38
+
+
+	.	error
+
+
+state 97:
+
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression INTMINUS Expression .  (reduce by rule 37)
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+
+	EQUALS	reduce by rule 37
+	RPAR	reduce by rule 37
+	OR	reduce by rule 37
+	AND	reduce by rule 37
+	LE	reduce by rule 37
+	LT	reduce by rule 37
+	GE	reduce by rule 37
+	GT	reduce by rule 37
+	RATPLUS	shift 70
+	RATMINUS	shift 69
+	RATTIMES	shift 68
+	RATDIV	shift 67
+	INTPLUS	reduce by rule 37
+	INTMINUS	reduce by rule 37
+	INTTIMES	shift 64
+	INTDIV	shift 63
+	SEMI	reduce by rule 37
+	COMMA	reduce by rule 37
+	MOD	shift 62
+	NE	reduce by rule 37
+	THEN	reduce by rule 37
+	DO	reduce by rule 37
+
+
+	.	error
+
+
+state 98:
+
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression INTPLUS Expression .  (reduce by rule 36)
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+
+	EQUALS	reduce by rule 36
+	RPAR	reduce by rule 36
+	OR	reduce by rule 36
+	AND	reduce by rule 36
+	LE	reduce by rule 36
+	LT	reduce by rule 36
+	GE	reduce by rule 36
+	GT	reduce by rule 36
+	RATPLUS	shift 70
+	RATMINUS	shift 69
+	RATTIMES	shift 68
+	RATDIV	shift 67
+	INTPLUS	reduce by rule 36
+	INTMINUS	reduce by rule 36
+	INTTIMES	shift 64
+	INTDIV	shift 63
+	SEMI	reduce by rule 36
+	COMMA	reduce by rule 36
+	MOD	shift 62
+	NE	reduce by rule 36
+	THEN	reduce by rule 36
+	DO	reduce by rule 36
+
+
+	.	error
+
+
+state 99:
+
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : Expression RATDIV Expression .  (reduce by rule 29)
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+
+	EQUALS	reduce by rule 29
+	RPAR	reduce by rule 29
+	OR	reduce by rule 29
+	AND	reduce by rule 29
+	LE	reduce by rule 29
+	LT	reduce by rule 29
+	GE	reduce by rule 29
+	GT	reduce by rule 29
+	RATPLUS	reduce by rule 29
+	RATMINUS	reduce by rule 29
+	RATTIMES	reduce by rule 29
+	RATDIV	reduce by rule 29
+	INTPLUS	reduce by rule 29
+	INTMINUS	reduce by rule 29
+	INTTIMES	reduce by rule 29
+	INTDIV	reduce by rule 29
+	SEMI	reduce by rule 29
+	COMMA	reduce by rule 29
+	MOD	reduce by rule 29
+	NE	reduce by rule 29
+	THEN	reduce by rule 29
+	DO	reduce by rule 29
+
+
+	.	error
+
+
+state 100:
+
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression RATTIMES Expression .  (reduce by rule 28)
+	Expression : Expression . RATDIV Expression 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+
+	EQUALS	reduce by rule 28
+	RPAR	reduce by rule 28
+	OR	reduce by rule 28
+	AND	reduce by rule 28
+	LE	reduce by rule 28
+	LT	reduce by rule 28
+	GE	reduce by rule 28
+	GT	reduce by rule 28
+	RATPLUS	reduce by rule 28
+	RATMINUS	reduce by rule 28
+	RATTIMES	reduce by rule 28
+	RATDIV	reduce by rule 28
+	INTPLUS	reduce by rule 28
+	INTMINUS	reduce by rule 28
+	INTTIMES	reduce by rule 28
+	INTDIV	reduce by rule 28
+	SEMI	reduce by rule 28
+	COMMA	reduce by rule 28
+	MOD	reduce by rule 28
+	NE	reduce by rule 28
+	THEN	reduce by rule 28
+	DO	reduce by rule 28
+
+
+	.	error
+
+
+state 101:
+
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression RATMINUS Expression .  (reduce by rule 27)
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+
+	EQUALS	reduce by rule 27
+	RPAR	reduce by rule 27
+	OR	reduce by rule 27
+	AND	reduce by rule 27
+	LE	reduce by rule 27
+	LT	reduce by rule 27
+	GE	reduce by rule 27
+	GT	reduce by rule 27
+	RATPLUS	reduce by rule 27
+	RATMINUS	reduce by rule 27
+	RATTIMES	shift 68
+	RATDIV	shift 67
+	INTPLUS	reduce by rule 27
+	INTMINUS	reduce by rule 27
+	INTTIMES	reduce by rule 27
+	INTDIV	reduce by rule 27
+	SEMI	reduce by rule 27
+	COMMA	reduce by rule 27
+	MOD	reduce by rule 27
+	NE	reduce by rule 27
+	THEN	reduce by rule 27
+	DO	reduce by rule 27
+
+
+	.	error
+
+
+state 102:
+
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression RATPLUS Expression .  (reduce by rule 26)
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+
+	EQUALS	reduce by rule 26
+	RPAR	reduce by rule 26
+	OR	reduce by rule 26
+	AND	reduce by rule 26
+	LE	reduce by rule 26
+	LT	reduce by rule 26
+	GE	reduce by rule 26
+	GT	reduce by rule 26
+	RATPLUS	reduce by rule 26
+	RATMINUS	reduce by rule 26
+	RATTIMES	shift 68
+	RATDIV	shift 67
+	INTPLUS	reduce by rule 26
+	INTMINUS	reduce by rule 26
+	INTTIMES	reduce by rule 26
+	INTDIV	reduce by rule 26
+	SEMI	reduce by rule 26
+	COMMA	reduce by rule 26
+	MOD	reduce by rule 26
+	NE	reduce by rule 26
+	THEN	reduce by rule 26
+	DO	reduce by rule 26
+
+
+	.	error
+
+
+state 103:
+
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression GT Expression .  (reduce by rule 44)
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+
+	EQUALS	reduce by rule 44
+	RPAR	reduce by rule 44
+	OR	reduce by rule 44
+	AND	reduce by rule 44
+	LE	reduce by rule 44
+	LT	reduce by rule 44
+	GE	reduce by rule 44
+	GT	reduce by rule 44
+	RATPLUS	shift 70
+	RATMINUS	shift 69
+	RATTIMES	shift 68
+	RATDIV	shift 67
+	INTPLUS	shift 66
+	INTMINUS	shift 65
+	INTTIMES	shift 64
+	INTDIV	shift 63
+	SEMI	reduce by rule 44
+	COMMA	reduce by rule 44
+	MOD	shift 62
+	NE	reduce by rule 44
+	THEN	reduce by rule 44
+	DO	reduce by rule 44
+
+
+	.	error
+
+
+state 104:
+
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression GE Expression .  (reduce by rule 46)
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+
+	EQUALS	reduce by rule 46
+	RPAR	reduce by rule 46
+	OR	reduce by rule 46
+	AND	reduce by rule 46
+	LE	reduce by rule 46
+	LT	reduce by rule 46
+	GE	reduce by rule 46
+	GT	reduce by rule 46
+	RATPLUS	shift 70
+	RATMINUS	shift 69
+	RATTIMES	shift 68
+	RATDIV	shift 67
+	INTPLUS	shift 66
+	INTMINUS	shift 65
+	INTTIMES	shift 64
+	INTDIV	shift 63
+	SEMI	reduce by rule 46
+	COMMA	reduce by rule 46
+	MOD	shift 62
+	NE	reduce by rule 46
+	THEN	reduce by rule 46
+	DO	reduce by rule 46
+
+
+	.	error
+
+
+state 105:
+
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression LT Expression .  (reduce by rule 43)
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+
+	EQUALS	reduce by rule 43
+	RPAR	reduce by rule 43
+	OR	reduce by rule 43
+	AND	reduce by rule 43
+	LE	reduce by rule 43
+	LT	reduce by rule 43
+	GE	reduce by rule 43
+	GT	reduce by rule 43
+	RATPLUS	shift 70
+	RATMINUS	shift 69
+	RATTIMES	shift 68
+	RATDIV	shift 67
+	INTPLUS	shift 66
+	INTMINUS	shift 65
+	INTTIMES	shift 64
+	INTDIV	shift 63
+	SEMI	reduce by rule 43
+	COMMA	reduce by rule 43
+	MOD	shift 62
+	NE	reduce by rule 43
+	THEN	reduce by rule 43
+	DO	reduce by rule 43
+
+
+	.	error
+
+
+state 106:
+
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression LE Expression .  (reduce by rule 45)
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+
+	EQUALS	reduce by rule 45
+	RPAR	reduce by rule 45
+	OR	reduce by rule 45
+	AND	reduce by rule 45
+	LE	reduce by rule 45
+	LT	reduce by rule 45
+	GE	reduce by rule 45
+	GT	reduce by rule 45
+	RATPLUS	shift 70
+	RATMINUS	shift 69
+	RATTIMES	shift 68
+	RATDIV	shift 67
+	INTPLUS	shift 66
+	INTMINUS	shift 65
+	INTTIMES	shift 64
+	INTDIV	shift 63
+	SEMI	reduce by rule 45
+	COMMA	reduce by rule 45
+	MOD	shift 62
+	NE	reduce by rule 45
+	THEN	reduce by rule 45
+	DO	reduce by rule 45
+
+
+	.	error
+
+
+state 107:
+
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression AND Expression .  (reduce by rule 49)
+	Expression : Expression . OR Expression 
+
+	EQUALS	shift 77
+	RPAR	reduce by rule 49
+	OR	reduce by rule 49
+	AND	reduce by rule 49
+	LE	shift 74
+	LT	shift 73
+	GE	shift 72
+	GT	shift 71
+	RATPLUS	shift 70
+	RATMINUS	shift 69
+	RATTIMES	shift 68
+	RATDIV	shift 67
+	INTPLUS	shift 66
+	INTMINUS	shift 65
+	INTTIMES	shift 64
+	INTDIV	shift 63
+	SEMI	reduce by rule 49
+	COMMA	reduce by rule 49
+	MOD	shift 62
+	NE	shift 61
+	THEN	reduce by rule 49
+	DO	reduce by rule 49
+
+
+	.	error
+
+
+state 108:
+
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+	Expression : Expression OR Expression .  (reduce by rule 50)
+
+	EQUALS	shift 77
+	RPAR	reduce by rule 50
+	OR	reduce by rule 50
+	AND	shift 75
+	LE	shift 74
+	LT	shift 73
+	GE	shift 72
+	GT	shift 71
+	RATPLUS	shift 70
+	RATMINUS	shift 69
+	RATTIMES	shift 68
+	RATDIV	shift 67
+	INTPLUS	shift 66
+	INTMINUS	shift 65
+	INTTIMES	shift 64
+	INTDIV	shift 63
+	SEMI	reduce by rule 50
+	COMMA	reduce by rule 50
+	MOD	shift 62
+	NE	shift 61
+	THEN	reduce by rule 50
+	DO	reduce by rule 50
+
+
+	.	error
+
+
+state 109:
+
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression EQUALS Expression .  (reduce by rule 47)
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+
+	EQUALS	shift 77
+	RPAR	reduce by rule 47
+	OR	reduce by rule 47
+	AND	reduce by rule 47
+	LE	shift 74
+	LT	shift 73
+	GE	shift 72
+	GT	shift 71
+	RATPLUS	shift 70
+	RATMINUS	shift 69
+	RATTIMES	shift 68
+	RATDIV	shift 67
+	INTPLUS	shift 66
+	INTMINUS	shift 65
+	INTTIMES	shift 64
+	INTDIV	shift 63
+	SEMI	reduce by rule 47
+	COMMA	reduce by rule 47
+	MOD	shift 62
+	NE	shift 61
+	THEN	reduce by rule 47
+	DO	reduce by rule 47
+
+
+	.	error
+
+
+state 110:
+
+	Expression : FROMDECIMAL LPAR RATNUM . RPAR 
+
+	RPAR	shift 119
+
+
+	.	error
+
+
+state 111:
+
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : MAKERAT LPAR Expression . COMMA Expression RPAR 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+
+	EQUALS	shift 77
+	OR	shift 76
+	AND	shift 75
+	LE	shift 74
+	LT	shift 73
+	GE	shift 72
+	GT	shift 71
+	RATPLUS	shift 70
+	RATMINUS	shift 69
+	RATTIMES	shift 68
+	RATDIV	shift 67
+	INTPLUS	shift 66
+	INTMINUS	shift 65
+	INTTIMES	shift 64
+	INTDIV	shift 63
+	COMMA	shift 120
+	MOD	shift 62
+	NE	shift 61
+
+
+	.	error
+
+
+state 112:
+
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : RAT_UN LPAR Expression . RPAR 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+
+	EQUALS	shift 77
+	RPAR	shift 121
+	OR	shift 76
+	AND	shift 75
+	LE	shift 74
+	LT	shift 73
+	GE	shift 72
+	GT	shift 71
+	RATPLUS	shift 70
+	RATMINUS	shift 69
+	RATTIMES	shift 68
+	RATDIV	shift 67
+	INTPLUS	shift 66
+	INTMINUS	shift 65
+	INTTIMES	shift 64
+	INTDIV	shift 63
+	MOD	shift 62
+	NE	shift 61
+
+
+	.	error
+
+
+state 113:
+
+	Expression : LPAR Expression RPAR .  (reduce by rule 52)
+
+	EQUALS	reduce by rule 52
+	RPAR	reduce by rule 52
+	OR	reduce by rule 52
+	AND	reduce by rule 52
+	LE	reduce by rule 52
+	LT	reduce by rule 52
+	GE	reduce by rule 52
+	GT	reduce by rule 52
+	RATPLUS	reduce by rule 52
+	RATMINUS	reduce by rule 52
+	RATTIMES	reduce by rule 52
+	RATDIV	reduce by rule 52
+	INTPLUS	reduce by rule 52
+	INTMINUS	reduce by rule 52
+	INTTIMES	reduce by rule 52
+	INTDIV	reduce by rule 52
+	SEMI	reduce by rule 52
+	COMMA	reduce by rule 52
+	MOD	reduce by rule 52
+	NE	reduce by rule 52
+	THEN	reduce by rule 52
+	DO	reduce by rule 52
+
+
+	.	error
+
+
+state 114:
+
+	Command : IF Expression THEN CommandSeq . ELSE CommandSeq FI SEMI 
+
+	ELSE	shift 122
+
+
+	.	error
+
+
+state 115:
+
+	ProcDef : PROCEDURE IDENT Block SEMI .  (reduce by rule 13)
+
+	LBRACE	reduce by rule 13
+	PROCEDURE	reduce by rule 13
+
+
+	.	error
+
+
+state 116:
+
+	Command : READ LPAR IDENT RPAR SEMI .  (reduce by rule 20)
+
+	RBRACE	reduce by rule 20
+	IF	reduce by rule 20
+	WHILE	reduce by rule 20
+	PRINT	reduce by rule 20
+	READ	reduce by rule 20
+	CALL	reduce by rule 20
+	IDENT	reduce by rule 20
+
+
+	.	error
+
+
+state 117:
+
+	Command : PRINT LPAR Expression RPAR SEMI .  (reduce by rule 21)
+
+	RBRACE	reduce by rule 21
+	IF	reduce by rule 21
+	WHILE	reduce by rule 21
+	PRINT	reduce by rule 21
+	READ	reduce by rule 21
+	CALL	reduce by rule 21
+	IDENT	reduce by rule 21
+
+
+	.	error
+
+
+state 118:
+
+	Command : WHILE Expression DO CommandSeq OD . SEMI 
+
+	SEMI	shift 123
+
+
+	.	error
+
+
+state 119:
+
+	Expression : FROMDECIMAL LPAR RATNUM RPAR .  (reduce by rule 32)
+
+	EQUALS	reduce by rule 32
+	RPAR	reduce by rule 32
+	OR	reduce by rule 32
+	AND	reduce by rule 32
+	LE	reduce by rule 32
+	LT	reduce by rule 32
+	GE	reduce by rule 32
+	GT	reduce by rule 32
+	RATPLUS	reduce by rule 32
+	RATMINUS	reduce by rule 32
+	RATTIMES	reduce by rule 32
+	RATDIV	reduce by rule 32
+	INTPLUS	reduce by rule 32
+	INTMINUS	reduce by rule 32
+	INTTIMES	reduce by rule 32
+	INTDIV	reduce by rule 32
+	SEMI	reduce by rule 32
+	COMMA	reduce by rule 32
+	MOD	reduce by rule 32
+	NE	reduce by rule 32
+	THEN	reduce by rule 32
+	DO	reduce by rule 32
+
+
+	.	error
+
+
+state 120:
+
+	Expression : MAKERAT LPAR Expression COMMA . Expression RPAR 
+
+	CONST	shift 46
+	RATNUM	shift 45
+	LPAR	shift 44
+	NOT	shift 43
+	NEG	shift 42
+	TRUE	shift 41
+	FALSE	shift 40
+	RAT_UN	shift 39
+	MAKERAT	shift 38
+	FROMDECIMAL	shift 37
+	INVERSE	shift 36
+	IDENT	shift 35
+
+	Expression	goto 124
+
+	.	error
+
+
+state 121:
+
+	Expression : RAT_UN LPAR Expression RPAR .  (reduce by rule 33)
+
+	EQUALS	reduce by rule 33
+	RPAR	reduce by rule 33
+	OR	reduce by rule 33
+	AND	reduce by rule 33
+	LE	reduce by rule 33
+	LT	reduce by rule 33
+	GE	reduce by rule 33
+	GT	reduce by rule 33
+	RATPLUS	reduce by rule 33
+	RATMINUS	reduce by rule 33
+	RATTIMES	reduce by rule 33
+	RATDIV	reduce by rule 33
+	INTPLUS	reduce by rule 33
+	INTMINUS	reduce by rule 33
+	INTTIMES	reduce by rule 33
+	INTDIV	reduce by rule 33
+	SEMI	reduce by rule 33
+	COMMA	reduce by rule 33
+	MOD	reduce by rule 33
+	NE	reduce by rule 33
+	THEN	reduce by rule 33
+	DO	reduce by rule 33
+
+
+	.	error
+
+
+state 122:
+
+	Command : IF Expression THEN CommandSeq ELSE . CommandSeq FI SEMI 
+
+	LBRACE	shift 8
+
+	CommandSeq	goto 125
+
+	.	error
+
+
+state 123:
+
+	Command : WHILE Expression DO CommandSeq OD SEMI .  (reduce by rule 23)
+
+	RBRACE	reduce by rule 23
+	IF	reduce by rule 23
+	WHILE	reduce by rule 23
+	PRINT	reduce by rule 23
+	READ	reduce by rule 23
+	CALL	reduce by rule 23
+	IDENT	reduce by rule 23
+
+
+	.	error
+
+
+state 124:
+
+	Expression : Expression . RATPLUS Expression 
+	Expression : Expression . RATMINUS Expression 
+	Expression : Expression . RATTIMES Expression 
+	Expression : Expression . RATDIV Expression 
+	Expression : MAKERAT LPAR Expression COMMA Expression . RPAR 
+	Expression : Expression . INTPLUS Expression 
+	Expression : Expression . INTMINUS Expression 
+	Expression : Expression . INTTIMES Expression 
+	Expression : Expression . INTDIV Expression 
+	Expression : Expression . MOD Expression 
+	Expression : Expression . LT Expression 
+	Expression : Expression . GT Expression 
+	Expression : Expression . LE Expression 
+	Expression : Expression . GE Expression 
+	Expression : Expression . EQUALS Expression 
+	Expression : Expression . NE Expression 
+	Expression : Expression . AND Expression 
+	Expression : Expression . OR Expression 
+
+	EQUALS	shift 77
+	RPAR	shift 126
+	OR	shift 76
+	AND	shift 75
+	LE	shift 74
+	LT	shift 73
+	GE	shift 72
+	GT	shift 71
+	RATPLUS	shift 70
+	RATMINUS	shift 69
+	RATTIMES	shift 68
+	RATDIV	shift 67
+	INTPLUS	shift 66
+	INTMINUS	shift 65
+	INTTIMES	shift 64
+	INTDIV	shift 63
+	MOD	shift 62
+	NE	shift 61
+
+
+	.	error
+
+
+state 125:
+
+	Command : IF Expression THEN CommandSeq ELSE CommandSeq . FI SEMI 
+
+	FI	shift 127
+
+
+	.	error
+
+
+state 126:
+
+	Expression : MAKERAT LPAR Expression COMMA Expression RPAR .  (reduce by rule 31)
+
+	EQUALS	reduce by rule 31
+	RPAR	reduce by rule 31
+	OR	reduce by rule 31
+	AND	reduce by rule 31
+	LE	reduce by rule 31
+	LT	reduce by rule 31
+	GE	reduce by rule 31
+	GT	reduce by rule 31
+	RATPLUS	reduce by rule 31
+	RATMINUS	reduce by rule 31
+	RATTIMES	reduce by rule 31
+	RATDIV	reduce by rule 31
+	INTPLUS	reduce by rule 31
+	INTMINUS	reduce by rule 31
+	INTTIMES	reduce by rule 31
+	INTDIV	reduce by rule 31
+	SEMI	reduce by rule 31
+	COMMA	reduce by rule 31
+	MOD	reduce by rule 31
+	NE	reduce by rule 31
+	THEN	reduce by rule 31
+	DO	reduce by rule 31
+
+
+	.	error
+
+
+state 127:
+
+	Command : IF Expression THEN CommandSeq ELSE CommandSeq FI . SEMI 
+
+	SEMI	shift 128
+
+
+	.	error
+
+
+state 128:
+
+	Command : IF Expression THEN CommandSeq ELSE CommandSeq FI SEMI .  (reduce by rule 22)
+
+	RBRACE	reduce by rule 22
+	IF	reduce by rule 22
+	WHILE	reduce by rule 22
+	PRINT	reduce by rule 22
+	READ	reduce by rule 22
+	CALL	reduce by rule 22
+	IDENT	reduce by rule 22
+
+
+	.	error
+
+
+state 129:
+
+
+	EOF	accept
+
+
+	.	error
+
+925 of 1402 action table entries left after compaction
+54 goto table entries

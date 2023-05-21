@@ -1,0 +1,124 @@
+
+
+%%
+
+%name RatPL
+
+%term CONST of BigInt.bigint | RATNUM of Rational.rational | EQUALS | LPAR | RPAR | LBRACE | RBRACE | NOT | OR | AND | LE 
+| LT | GE | GT | RATPLUS | RATMINUS | RATTIMES | RATDIV | INTPLUS | INTMINUS | INTTIMES | INTDIV | SEMI | COMMA | NEG 
+| MOD | NE | ASSIGN | RATIONAL | INTEGER | BOOLEAN | TRUE | FALSE | VAR | IF | THEN | ELSE | FI | WHILE | DO | OD | PROCEDURE | RAT_UN
+| PRINT | READ | CALL | MAKERAT | SHOWRAT | SHOWDECIMAL | FROMDECIMAL | TODECIMAL | INVERSE | EOF | IDENT of Datatypes.Ident
+
+%nonterm Program of Datatypes.Block | Block of Datatypes.Block 
+| DeclarationSeq of Datatypes.DeclarationSeq
+| RatVarDecls of Datatypes.RatVarDecls | IntVarDecls of Datatypes.IntVarDecls | BoolVarDecls of Datatypes.BoolVarDecls 
+| ProcDef of Datatypes.ProcDef | ProcDecls of Datatypes.ProcDef list | CommandSeq of Datatypes.Command list | Commandlist of Datatypes.Command list
+| Command of Datatypes.Command | AssignmentCmd of Datatypes.Ident * Datatypes.Expression | CallCmd of Datatypes.Ident 
+| ReadCmd of Datatypes.Ident | PrintCmd of Datatypes.Expression | Expression of Datatypes.Expression 
+| ConditionalCmd of Datatypes.Expression * Datatypes.CommandSeq * Datatypes.CommandSeq 
+| WhileCmd of Datatypes.Expression * Datatypes.CommandSeq  
+| Identlist of Datatypes.Ident list 
+
+
+%pos int 
+
+%right ASSIGN
+%left OR
+%left AND
+%right EQUALS NE
+%left LE GE LT GT
+%left INTPLUS INTMINUS
+%left INTTIMES INTDIV MOD
+%left RATPLUS RATMINUS
+%left RATTIMES RATDIV
+%right NOT
+%right INVERSE NEG
+
+%keyword
+%eop EOF
+%noshift EOF
+
+%start Program
+%nodefault 
+%verbose
+%arg (filename) : string
+
+%%
+
+Program: Block (Block)
+
+Block: DeclarationSeq CommandSeq (Datatypes.Block(DeclarationSeq, Datatypes.CommandSeq(CommandSeq)))
+
+DeclarationSeq: RatVarDecls IntVarDecls BoolVarDecls ProcDecls (Datatypes.DeclarationSeq(RatVarDecls, IntVarDecls, BoolVarDecls, Datatypes.ProcDecls(ProcDecls) ))
+
+RatVarDecls: 
+ RATIONAL IDENT Identlist SEMI (Datatypes.RatVarDecls( IDENT :: Identlist))
+| (Datatypes.RatVarDecls([]))
+
+IntVarDecls: 
+INTEGER IDENT Identlist SEMI (Datatypes.IntVarDecls( IDENT :: Identlist))
+| (Datatypes.IntVarDecls([]))
+
+BoolVarDecls: 
+BOOLEAN IDENT Identlist SEMI (Datatypes.BoolVarDecls( IDENT :: Identlist))
+| (Datatypes.BoolVarDecls([]))
+
+Identlist: 
+COMMA IDENT Identlist (IDENT :: Identlist)
+| ([])
+
+ProcDecls: ProcDef ProcDecls (ProcDef :: ProcDecls)
+| ([])
+
+ProcDef: PROCEDURE IDENT Block SEMI (Datatypes.ProcDef(IDENT, Block))
+
+CommandSeq: LBRACE Command  Commandlist RBRACE (Command :: Commandlist)
+| LBRACE RBRACE ([])
+
+Commandlist: Command Commandlist (Command :: Commandlist)
+| ([])
+
+Command: IDENT ASSIGN Expression SEMI (Datatypes.AssignmentCmd(IDENT, Expression))
+| CALL IDENT SEMI (Datatypes.CallCmd(IDENT))
+| READ LPAR IDENT RPAR SEMI (Datatypes.ReadCmd(IDENT))
+| PRINT LPAR Expression RPAR SEMI (Datatypes.PrintCmd(Expression))
+| IF Expression THEN CommandSeq ELSE CommandSeq FI SEMI (Datatypes.ConditionalCmd (Expression, Datatypes.CommandSeq(CommandSeq1), Datatypes.CommandSeq(CommandSeq2)))
+| WHILE Expression DO CommandSeq OD SEMI (Datatypes.WhileCmd(Expression, Datatypes.CommandSeq(CommandSeq)))
+
+Expression: 
+
+RATNUM (Datatypes.RationalLiteral(RATNUM))
+| IDENT (Datatypes.Ident(IDENT))
+| Expression RATPLUS Expression (Datatypes.RatAdd(Expression1, Expression2))
+| Expression RATMINUS Expression (Datatypes.RatSub(Expression1, Expression2))
+| Expression RATTIMES Expression (Datatypes.RatMul(Expression1, Expression2))
+| Expression RATDIV Expression (Datatypes.RatDiv(Expression1, Expression2))
+| INVERSE Expression (Datatypes.InverseExpression(Expression))
+| MAKERAT LPAR Expression COMMA Expression RPAR (Datatypes.MakeRat(Expression1, Expression2))
+| FROMDECIMAL LPAR RATNUM RPAR (Datatypes.RationalLiteral(RATNUM))
+| RAT_UN LPAR Expression RPAR (Datatypes.RatUn(Expression))
+
+| NEG Expression (Datatypes.Neg(Expression))
+
+
+| CONST (Datatypes.IntegerLiteral(CONST))
+| Expression INTPLUS Expression (Datatypes.IntAdd(Expression1, Expression2))
+| Expression INTMINUS Expression (Datatypes.IntSub(Expression1, Expression2))
+| Expression INTTIMES Expression (Datatypes.IntMul(Expression1, Expression2))
+| Expression INTDIV Expression (Datatypes.IntDiv(Expression1, Expression2))
+| Expression MOD Expression (Datatypes.IntMod(Expression1, Expression2))
+
+
+| TRUE (Datatypes.BooleanLiteral(true))
+| FALSE (Datatypes.BooleanLiteral(false))
+| Expression LT Expression (Datatypes.LessThan(Expression1, Expression2))
+| Expression GT Expression (Datatypes.GreaterThan(Expression1, Expression2))
+| Expression LE Expression (Datatypes.LessThanOrEqual(Expression1, Expression2))
+| Expression GE Expression (Datatypes.GreaterThanOrEqual (Expression1, Expression2))
+| Expression EQUALS Expression (Datatypes.Equal(Expression1, Expression2))
+| Expression NE Expression (Datatypes.NotEqual(Expression1, Expression2))
+| Expression AND Expression (Datatypes.And(Expression1, Expression2))
+| Expression OR Expression (Datatypes.Or(Expression1, Expression2))
+| NOT Expression (Datatypes.Not(Expression))
+
+| LPAR Expression RPAR (Expression)
